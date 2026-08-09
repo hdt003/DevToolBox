@@ -7,25 +7,38 @@ interface AdSlotProps {
 }
 
 export const AdSlot: React.FC<AdSlotProps> = ({ position = 'middle', className = '' }) => {
-  // Check if an AdSense ID or custom ad script is present in env variables
-  const adsenseId = import.meta.env.VITE_ADSENSE_ID;
+  // Use the user's specific Google AdSense ID as the default fallback
+  const adsenseId = import.meta.env.VITE_ADSENSE_ID || 'ca-pub-7568016043292112';
 
-  if (adsenseId) {
+  // In production (or when we want to active the script), render the official Google AdSense markup
+  // If you are running locally in development, you can still view the placeholder banner
+  const isDev = import.meta.env.DEV;
+
+  if (adsenseId && !isDev) {
     return (
-      <div className={`my-6 text-center overflow-hidden ${className}`}>
+      <div className={`my-6 flex items-center justify-center overflow-hidden min-h-[90px] ${className}`}>
         <ins
           className="adsbygoogle"
-          style={{ display: 'block' }}
+          style={{ display: 'block', width: '100%', minHeight: '90px' }}
           data-ad-client={adsenseId}
           data-ad-slot="1234567890"
           data-ad-format="auto"
           data-full-width-responsive="true"
         />
+        <script>
+          {`
+            try {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+              console.error('AdSense error:', e);
+            }
+          `}
+        </script>
       </div>
     );
   }
 
-  // Render sleek, realistic visual ad unit placeholders for development & demonstration
+  // Render sleek, realistic visual ad unit placeholders for development & testing
   const dimensions = {
     top: 'h-24 max-w-4xl mx-auto',
     middle: 'h-28 max-w-4xl mx-auto',
@@ -52,7 +65,7 @@ export const AdSlot: React.FC<AdSlotProps> = ({ position = 'middle', className =
             </span>
           </div>
           <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
-            AdSense / Sponsor Unit • Set <code>VITE_ADSENSE_ID</code> in production to enable live ads
+            Google AdSense Active • Publisher: <code>{adsenseId}</code>
           </p>
         </div>
       </div>
