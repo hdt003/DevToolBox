@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, HelpCircle, ShieldCheck, Zap } from 'lucide-react';
-import { ToolDefinition } from '../../types/tool';
+import React, { useState } from "react";
+import {
+  ChevronDown,
+  ChevronUp,
+  HelpCircle,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
+import { ToolDefinition } from "../../types/tool";
 
 interface ToolSEOContentProps {
   tool: ToolDefinition;
@@ -12,16 +18,16 @@ interface ToolSEOContentProps {
 export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({
   tool,
   howToSteps = [
-    'Paste or enter your input data into the editor area above.',
-    'Select desired formatting options, indentation, or operation flags.',
-    'Review processed output in real-time with instant validation.',
-    'Copy the result to your clipboard or download it as a local file.',
+    "Paste or enter your input data into the editor area above.",
+    "Select desired formatting options, indentation, or operation flags.",
+    "Review processed output in real-time with instant validation.",
+    "Copy the result to your clipboard or download it as a local file.",
   ],
   features = [
-    '100% In-Browser Execution — Zero server uploads or data logging.',
-    'Real-time parsing, formatting, and validation error detection.',
-    'Supports keyboard shortcuts (Ctrl/Cmd + Enter) for quick execution.',
-    'One-click copy to clipboard and downloadable file output.',
+    "100% In-Browser Execution - Zero server uploads or data logging.",
+    "Real-time parsing, formatting, and validation error detection.",
+    "Supports keyboard shortcuts (Ctrl/Cmd + Enter) for quick execution.",
+    "One-click copy to clipboard and downloadable file output.",
   ],
   faqs,
 }) => {
@@ -44,14 +50,16 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({
 
   return (
     <article className="mt-12 space-y-8 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900">
-      
       {/* Intro Heading */}
       <div>
         <h2 className="text-xl font-bold text-slate-900 dark:text-white">
           About {tool.name}
         </h2>
         <p className="mt-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          The {tool.name} is a high-performance web-based utility designed for software engineers, web developers, system administrators, and QA testers. It allows you to {tool.description.toLowerCase()} instantly without installing external software or uploading confidential code.
+          The {tool.name} is a high-performance web-based utility designed for
+          software engineers, web developers, system administrators, and QA
+          testers. It allows you to {tool.description.toLowerCase()} instantly
+          without installing external software or uploading confidential code.
         </p>
       </div>
 
@@ -63,7 +71,9 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({
         <ol className="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-decimal list-inside">
           {howToSteps.map((step, idx) => (
             <li key={idx} className="leading-relaxed">
-              <span className="font-semibold text-slate-800 dark:text-slate-200">{step}</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
+                {step}
+              </span>
             </li>
           ))}
         </ol>
@@ -119,7 +129,6 @@ export const ToolSEOContent: React.FC<ToolSEOContentProps> = ({
           })}
         </div>
       </div>
-
     </article>
   );
 };

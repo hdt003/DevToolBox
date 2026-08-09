@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Star, ShieldCheck, ChevronRight } from 'lucide-react';
-import { ToolDefinition } from '../../types/tool';
-import { useFavorites } from '../../hooks/useFavorites';
-import { useRecentTools } from '../../hooks/useRecentTools';
-import { CategoryIcon } from '../common/CategoryIcon';
-import { Badge } from '../common/Badge';
-import { AdSlot } from '../ads/AdSlot';
-import { RelatedTools } from './RelatedTools';
-import { ToolSEOContent } from './ToolSEOContent';
-import { ToolCategoryTabs } from './ToolCategoryTabs';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Star, ShieldCheck, ChevronRight } from "lucide-react";
+import { ToolDefinition } from "../../types/tool";
+import { useFavorites } from "../../hooks/useFavorites";
+import { useRecentTools } from "../../hooks/useRecentTools";
+import { CategoryIcon } from "../common/CategoryIcon";
+import { Badge } from "../common/Badge";
+import { AdSlot } from "../ads/AdSlot";
+import { RelatedTools } from "./RelatedTools";
+import { ToolSEOContent } from "./ToolSEOContent";
+import { ToolCategoryTabs } from "./ToolCategoryTabs";
 
 interface ToolWrapperProps {
   tool: ToolDefinition;
@@ -38,23 +38,28 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
 
   // Update dynamic page head meta tags for SEO
   useEffect(() => {
-    document.title = tool.seoTitle || `${tool.name} — DevToolBox`;
+    document.title = tool.seoTitle || `${tool.name} - DevToolBox`;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
-      metaDesc.setAttribute('content', tool.seoDescription);
+      metaDesc.setAttribute("content", tool.seoDescription);
     }
   }, [tool]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-      
       {/* BREADCRUMBS */}
       <nav className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-6">
-        <Link to="/" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+        <Link
+          to="/"
+          className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+        >
           Home
         </Link>
         <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-        <Link to="/tools" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+        <Link
+          to="/tools"
+          className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+        >
           Developer Tools
         </Link>
         <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
@@ -94,12 +99,14 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             onClick={() => toggleFavorite(tool.id)}
             className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
               favored
-                ? 'border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300'
+                ? "border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300"
+                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
             }`}
           >
-            <Star className={`h-4 w-4 ${favored ? 'fill-amber-500 text-amber-500' : ''}`} />
-            <span>{favored ? 'Favorited' : 'Favorite'}</span>
+            <Star
+              className={`h-4 w-4 ${favored ? "fill-amber-500 text-amber-500" : ""}`}
+            />
+            <span>{favored ? "Favorited" : "Favorite"}</span>
           </button>
         </div>
       </div>
@@ -117,11 +124,15 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
       <AdSlot position="middle" />
 
       {/* SEO CONTENT & FAQS */}
-      <ToolSEOContent tool={tool} howToSteps={howToSteps} features={features} faqs={faqs} />
+      <ToolSEOContent
+        tool={tool}
+        howToSteps={howToSteps}
+        features={features}
+        faqs={faqs}
+      />
 
       {/* RELATED TOOLS */}
       <RelatedTools currentTool={tool} />
-
     </div>
   );
 };

@@ -1,4 +1,4 @@
-# DevToolBox — Fast, Free Developer Tools in Your Browser
+# DevToolBox - Fast, Free Developer Tools in Your Browser
 
 **DevToolBox** is a modern, privacy-focused, browser-first developer utilities website built with **React 18**, **TypeScript**, **Vite**, **Tailwind CSS**, **Lucide Icons**, and a lightweight **FastAPI** backend.
 
@@ -19,6 +19,7 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Framework**: React 18 + TypeScript + Vite 6
 - **Styling**: Tailwind CSS v4 + PostCSS
 - **Icons**: Lucide React
@@ -26,6 +27,7 @@
 - **Libraries**: `sql-formatter`, `yaml`, `papaparse`, `cronstrue`, `marked`, `dompurify`, `ua-parser-js`
 
 ### Backend
+
 - **Framework**: Python 3.11 + FastAPI + Uvicorn
 - **Validation**: Pydantic v2
 
@@ -34,6 +36,7 @@
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm 10+
 - Python 3.11+ (optional, for backend)
 - Docker & Docker Compose (optional)

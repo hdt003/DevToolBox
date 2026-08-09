@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Star, ShieldCheck, Zap, ArrowRight, Sparkles, Clock, CheckCircle, Lock, Wrench } from 'lucide-react';
-import { TOOLS, CATEGORIES, getPopularTools } from '../data/toolsRegistry';
-import { CategoryIcon } from '../components/common/CategoryIcon';
-import { Badge } from '../components/common/Badge';
-import { Button } from '../components/common/Button';
-import { Card } from '../components/common/Card';
-import { AdSlot } from '../components/ads/AdSlot';
-import { useFavorites } from '../hooks/useFavorites';
-import { useRecentTools } from '../hooks/useRecentTools';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Search,
+  Star,
+  ShieldCheck,
+  Zap,
+  ArrowRight,
+  Sparkles,
+  Clock,
+  CheckCircle,
+  Lock,
+  Wrench,
+} from "lucide-react";
+import { TOOLS, CATEGORIES, getPopularTools } from "../data/toolsRegistry";
+import { CategoryIcon } from "../components/common/CategoryIcon";
+import { Badge } from "../components/common/Badge";
+import { Button } from "../components/common/Button";
+import { Card } from "../components/common/Card";
+import { AdSlot } from "../components/ads/AdSlot";
+import { useFavorites } from "../hooks/useFavorites";
+import { useRecentTools } from "../hooks/useRecentTools";
 
 export const Home: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { recentIds } = useRecentTools();
 
@@ -22,7 +33,9 @@ export const Home: React.FC = () => {
         (t) =>
           t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          t.keywords.some((k) => k.toLowerCase().includes(searchQuery.toLowerCase()))
+          t.keywords.some((k) =>
+            k.toLowerCase().includes(searchQuery.toLowerCase()),
+          ),
       )
     : [];
 
@@ -30,22 +43,20 @@ export const Home: React.FC = () => {
   const recentTools = TOOLS.filter((t) => recentIds.includes(t.id));
 
   const sampleSearchExamples = [
-    'JSON Formatter',
-    'JWT Decoder',
-    'Base64 Encoder',
-    'UUID Generator',
-    'Regex Tester',
-    'Timestamp Converter',
+    "JSON Formatter",
+    "JWT Decoder",
+    "Base64 Encoder",
+    "UUID Generator",
+    "Regex Tester",
+    "Timestamp Converter",
   ];
 
   return (
     <div className="space-y-16 pb-16">
-      
       {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/50 via-white to-slate-50 py-16 dark:from-brand-950/20 dark:via-slate-950 dark:to-slate-950">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center space-y-6">
-            
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3.5 py-1 text-xs font-semibold text-brand-700 shadow-2xs backdrop-blur-md dark:border-brand-800 dark:bg-brand-950/80 dark:text-brand-300">
               <Sparkles className="h-3.5 w-3.5 text-brand-500 animate-pulse" />
               <span>30+ Free Browser-Based Developer Utilities</span>
@@ -59,7 +70,8 @@ export const Home: React.FC = () => {
             </h1>
 
             <p className="text-base text-slate-600 sm:text-lg dark:text-slate-300 leading-relaxed">
-              Free, fast, privacy-friendly utilities for developers. Most tools run 100% directly in your browser with zero data logging.
+              Free, fast, privacy-friendly utilities for developers. Most tools
+              run 100% directly in your browser with zero data logging.
             </p>
 
             {/* Instant Search Bar */}
@@ -75,7 +87,7 @@ export const Home: React.FC = () => {
                 />
                 {searchQuery && (
                   <button
-                    onClick={() => setSearchQuery('')}
+                    onClick={() => setSearchQuery("")}
                     className="mr-3 text-xs font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                   >
                     Clear
@@ -84,7 +96,7 @@ export const Home: React.FC = () => {
               </div>
 
               {/* Live Search Quick Overlay */}
-              {searchQuery.trim() !== '' && (
+              {searchQuery.trim() !== "" && (
                 <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-80 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-2xl dark:border-slate-800 dark:bg-slate-900 text-left">
                   {filteredTools.length === 0 ? (
                     <div className="p-4 text-center text-sm text-slate-500 dark:text-slate-400">
@@ -99,7 +111,10 @@ export const Home: React.FC = () => {
                       >
                         <div className="flex items-center gap-3">
                           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
-                            <CategoryIcon name={tool.iconName} className="h-4 w-4" />
+                            <CategoryIcon
+                              name={tool.iconName}
+                              className="h-4 w-4"
+                            />
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-slate-900 dark:text-white">
@@ -120,7 +135,9 @@ export const Home: React.FC = () => {
 
             {/* Quick Filter Example Chips */}
             <div className="flex flex-wrap items-center justify-center gap-2 text-xs pt-1">
-              <span className="text-slate-400 font-medium">Popular searches:</span>
+              <span className="text-slate-400 font-medium">
+                Popular searches:
+              </span>
               {sampleSearchExamples.map((ex) => (
                 <button
                   key={ex}
@@ -131,7 +148,6 @@ export const Home: React.FC = () => {
                 </button>
               ))}
             </div>
-
           </div>
         </div>
       </section>
@@ -148,7 +164,9 @@ export const Home: React.FC = () => {
                 Privacy-First Architecture
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-300">
-                Most tools process your sensitive JSON, JWTs, keys, and code locally inside your browser. No input data is sent to backend servers.
+                Most tools process your sensitive JSON, JWTs, keys, and code
+                locally inside your browser. No input data is sent to backend
+                servers.
               </p>
             </div>
           </div>
@@ -163,11 +181,17 @@ export const Home: React.FC = () => {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <Star className="h-5 w-5 text-amber-500 fill-amber-500" />
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Your Favorite Tools</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              Your Favorite Tools
+            </h2>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {favoriteTools.map((tool) => (
-              <Card key={tool.id} hoverEffect className="relative flex flex-col justify-between">
+              <Card
+                key={tool.id}
+                hoverEffect
+                className="relative flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
@@ -226,7 +250,11 @@ export const Home: React.FC = () => {
           {popularTools.map((tool) => {
             const favored = isFavorite(tool.id);
             return (
-              <Card key={tool.id} hoverEffect className="group relative flex flex-col justify-between">
+              <Card
+                key={tool.id}
+                hoverEffect
+                className="group relative flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center justify-between">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
@@ -235,9 +263,11 @@ export const Home: React.FC = () => {
                     <button
                       onClick={() => toggleFavorite(tool.id)}
                       className="p-1.5 text-slate-300 hover:text-amber-500 dark:text-slate-700 dark:hover:text-amber-400 transition-colors"
-                      title={favored ? 'Remove favorite' : 'Add favorite'}
+                      title={favored ? "Remove favorite" : "Add favorite"}
                     >
-                      <Star className={`h-5 w-5 ${favored ? 'text-amber-500 fill-amber-500' : ''}`} />
+                      <Star
+                        className={`h-5 w-5 ${favored ? "text-amber-500 fill-amber-500" : ""}`}
+                      />
                     </button>
                   </div>
                   <h3 className="mt-4 text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
@@ -270,7 +300,10 @@ export const Home: React.FC = () => {
       </div>
 
       {/* CATEGORIES SECTION */}
-      <section id="categories" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section
+        id="categories"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+      >
         <div className="mb-6">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             Browse by Category
@@ -297,7 +330,9 @@ export const Home: React.FC = () => {
                     <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                       {cat.name}
                     </h3>
-                    <span className="text-[11px] text-slate-400">{count} tools</span>
+                    <span className="text-[11px] text-slate-400">
+                      {count} tools
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -310,17 +345,24 @@ export const Home: React.FC = () => {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl border border-slate-200 bg-white p-8 dark:border-slate-800 dark:bg-slate-900 space-y-4">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-            Free Online Developer Tools — Fast & Privacy-Friendly
+            Free Online Developer Tools - Fast & Privacy-Friendly
           </h2>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-            DevToolBox provides fast, privacy-friendly utilities built for modern software developers, DevOps engineers, and system administrators. Format complex JSON files, decode JSON Web Tokens (JWT), generate unique RFC4122 UUIDs, test regular expressions, convert Unix epoch timestamps, format SQL queries, calculate IP CIDR subnets, and generate secure cryptographic hashes.
+            DevToolBox provides fast, privacy-friendly utilities built for
+            modern software developers, DevOps engineers, and system
+            administrators. Format complex JSON files, decode JSON Web Tokens
+            (JWT), generate unique RFC4122 UUIDs, test regular expressions,
+            convert Unix epoch timestamps, format SQL queries, calculate IP CIDR
+            subnets, and generate secure cryptographic hashes.
           </p>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-            Unlike traditional online utility websites that route your sensitive tokens or payload data through backend web servers, DevToolBox runs processing directly in your browser DOM. Your code and secrets never leave your local machine.
+            Unlike traditional online utility websites that route your sensitive
+            tokens or payload data through backend web servers, DevToolBox runs
+            processing directly in your browser DOM. Your code and secrets never
+            leave your local machine.
           </p>
         </div>
       </section>
-
     </div>
   );
 };

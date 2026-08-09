@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
-import { Button } from '../../components/common/Button';
-import { CopyButton } from '../../components/tools/CopyButton';
-import { DownloadButton } from '../../components/tools/DownloadButton';
-import { TextAreaLabel } from '../../components/common/TextAreaLabel';
+import React, { useState, useEffect } from "react";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+import { Button } from "../../components/common/Button";
+import { CopyButton } from "../../components/tools/CopyButton";
+import { DownloadButton } from "../../components/tools/DownloadButton";
+import { TextAreaLabel } from "../../components/common/TextAreaLabel";
 
 const SAMPLE_MD = `# DevToolBox Markdown Editor
 
@@ -20,13 +20,13 @@ const greeting = "Hello DevToolBox!";
 console.log(greeting);
 \`\`\`
 
-> Privacy First — Tools process data in your browser.
+> Privacy First - Tools process data in your browser.
 `;
 
 export const MarkdownHTML: React.FC = () => {
   const [markdown, setMarkdown] = useState(SAMPLE_MD);
-  const [rawHtml, setRawHtml] = useState('');
-  const [sanitizedHtml, setSanitizedHtml] = useState('');
+  const [rawHtml, setRawHtml] = useState("");
+  const [sanitizedHtml, setSanitizedHtml] = useState("");
 
   useEffect(() => {
     try {
@@ -35,16 +35,14 @@ export const MarkdownHTML: React.FC = () => {
       setRawHtml(clean);
       setSanitizedHtml(clean);
     } catch {
-      setRawHtml('');
-      setSanitizedHtml('');
+      setRawHtml("");
+      setSanitizedHtml("");
     }
   }, [markdown]);
 
   return (
     <div className="space-y-6">
-      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
         {/* Markdown Input */}
         <div className="space-y-2">
           <TextAreaLabel label="Markdown Input" editable />
@@ -60,15 +58,18 @@ export const MarkdownHTML: React.FC = () => {
         <div className="space-y-2">
           <TextAreaLabel label="Rendered Live Preview (DOMPurify Sanitized)">
             <CopyButton value={rawHtml} label="Copy HTML" />
-            <DownloadButton content={rawHtml} filename="document.html" mimeType="text/html" />
+            <DownloadButton
+              content={rawHtml}
+              filename="document.html"
+              mimeType="text/html"
+            />
           </TextAreaLabel>
-          
+
           <div
             className="h-[310px] w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 text-slate-900 dark:text-white prose dark:prose-invert max-w-none text-xs"
             dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
           />
         </div>
-
       </div>
 
       <div className="space-y-2">
@@ -80,7 +81,6 @@ export const MarkdownHTML: React.FC = () => {
           value={rawHtml}
         />
       </div>
-
     </div>
   );
 };

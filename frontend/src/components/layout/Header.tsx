@@ -16,6 +16,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [isMac, setIsMac] = useState(false);
+
+  useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+  }, []);
+
   // Handle Ctrl+K / Cmd+K search shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -125,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
             <Search className="h-4 w-4 text-slate-400" />
             <span className="hidden sm:inline font-medium">Search 30+ tools...</span>
             <kbd className="hidden sm:inline-block rounded border border-slate-300 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
-              ⌘K
+              {isMac ? '⌘K' : 'Ctrl+K'}
             </kbd>
           </button>
 
