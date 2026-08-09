@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: devtoolbox
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
