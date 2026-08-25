@@ -13,6 +13,7 @@ const FormattedText: React.FC<{ text: string }> = ({ text }) => {
   return (
     <>
       {parts.map((part, idx) => {
+        if (!part) return null;
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={idx} className="font-bold text-slate-900 dark:text-white">{part.slice(2, -2)}</strong>;
         }
@@ -42,6 +43,141 @@ const FormattedText: React.FC<{ text: string }> = ({ text }) => {
         return part;
       })}
     </>
+  );
+};
+
+// Component to parse and render Markdown content cleanly
+const MarkdownContent: React.FC<{ content: string }> = ({ content }) => {
+  // Split into raw blocks (code blocks vs text blocks)
+  const blocks: { type: 'code' | 'text'; content: string; lang?: string }[] = [];
+  const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g;
+  
+  let lastIndex = 0;
+  let match;
+
+  while ((match = codeBlockRegex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      blocks.push({ type: 'text', content: content.substring(lastIndex, match.index) });
+    }
+    blocks.push({ type: 'code', lang: match[1], content: match[2].trim() });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < content.length) {
+    blocks.push({ type: 'text', content: content.substring(lastIndex) });
+  }
+
+  return (
+    <div className="space-y-6">
+      {blocks.map((block, bIdx) => {
+        if (block.type === 'code') {
+          return (
+            <div key={bIdx} className="my-4 rounded-xl border border-slate-800 bg-slate-950 p-4 font-mono text-xs sm:text-sm text-emerald-400 overflow-x-auto shadow-inner">
+              {block.lang && (
+                <div className="text-[10px] uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-1 tracking-wider">
+                  {block.lang}
+                </div>
+              )}
+              <pre className="whitespace-pre">
+                <code>{block.content}</code>
+              </pre>
+            </div>
+          );
+        }
+
+        // Process text block by splitting into paragraphs
+        const paragraphs = block.content.split(/\n\n+/);
+        return (
+          <React.Fragment key={bIdx}>
+            {paragraphs.map((para, pIdx) => {
+              const trimmed = para.trim();
+              if (!trimmed) return null;
+
+              if (trimmed.startsWith('### ')) {
+                return (
+                  <h2 key={pIdx} className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-8 mb-3">
+                    <FormattedText text={trimmed.replace('### ', '')} />
+                  </h2>
+                );
+              }
+
+              if (trimmed.startsWith('#### ')) {
+                return (
+                  <h3 key={pIdx} className="text-lg font-bold text-slate-900 dark:text-white mt-6 mb-2">
+                    <FormattedText text={trimmed.replace('#### ', '')} />
+                  </h3>
+                );
+              }
+
+              if (trimmed.startsWith('---')) {
+                return <hr key={pIdx} className="my-6 border-slate-200 dark:border-slate-800" />;
+              }
+
+              // Table (| ... |)
+              if (trimmed.startsWith('|')) {
+                const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|') && !r.includes(':---'));
+                if (rows.length > 0) {
+                  const headers = rows[0].split('|').filter(c => c.trim() !== '').map(c => c.trim());
+                  const bodyRows = rows.slice(1).map(r => r.split('|').filter(c => c.trim() !== '').map(c => c.trim()));
+
+                  return (
+                    <div key={pIdx} className="my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                      <table className="w-full text-left text-xs sm:text-sm">
+                        <thead className="bg-slate-100 dark:bg-slate-800/80 text-slate-900 dark:text-white font-bold border-b border-slate-200 dark:border-slate-800">
+                          <tr>
+                            {headers.map((h, i) => (
+                              <th key={i} className="px-4 py-3"><FormattedText text={h} /></th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
+                          {bodyRows.map((row, rowIndex) => (
+                            <tr key={rowIndex} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
+                              {row.map((cell, cellIndex) => (
+                                <td key={cellIndex} className="px-4 py-3 text-slate-700 dark:text-slate-300">
+                                  <FormattedText text={cell} />
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  );
+                }
+              }
+
+              // Lists (bullet points or numbered)
+              const lines = trimmed.split('\n');
+              const isList = lines.every(l => /^\s*(\*|\d+\.)\s+/.test(l));
+              if (isList) {
+                const isNumbered = /^\s*\d+\./.test(lines[0]);
+                const TagName = isNumbered ? 'ol' : 'ul';
+                return (
+                  <TagName key={pIdx} className={`${isNumbered ? 'list-decimal' : 'list-disc'} list-inside space-y-2 text-sm sm:text-base my-4 pl-2 text-slate-700 dark:text-slate-300`}>
+                    {lines.map((item, i) => (
+                      <li key={i} className="leading-relaxed">
+                        <FormattedText text={item.replace(/^\s*(\*|\d+\.)\s*/, '')} />
+                      </li>
+                    ))}
+                  </TagName>
+                );
+              }
+
+              // Regular paragraph (which might contain linebreaks)
+              return (
+                <div key={pIdx} className="space-y-3">
+                  {lines.map((line, lIdx) => (
+                    <p key={lIdx} className="leading-relaxed text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                      <FormattedText text={line} />
+                    </p>
+                  ))}
+                </div>
+              );
+            })}
+          </React.Fragment>
+        );
+      })}
+    </div>
   );
 };
 
@@ -147,104 +283,8 @@ export const BlogPostPage: React.FC = () => {
       </header>
 
       {/* Article Content */}
-      <article className="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed space-y-6">
-        {post.content.split('\n\n').map((paragraph, index) => {
-          const trimmed = paragraph.trim();
-
-          // Heading 2 (###)
-          if (trimmed.startsWith('### ')) {
-            return (
-              <h2 key={index} className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-8 mb-3">
-                <FormattedText text={trimmed.replace('### ', '')} />
-              </h2>
-            );
-          }
-
-          // Heading 3 (####)
-          if (trimmed.startsWith('#### ')) {
-            return (
-              <h3 key={index} className="text-lg font-bold text-slate-900 dark:text-white mt-6 mb-2">
-                <FormattedText text={trimmed.replace('#### ', '')} />
-              </h3>
-            );
-          }
-
-          // Horizontal Divider (---)
-          if (trimmed.startsWith('---')) {
-            return <hr key={index} className="my-6 border-slate-200 dark:border-slate-800" />;
-          }
-
-          // Code Block (```lang ... ```)
-          if (trimmed.startsWith('```')) {
-            const lines = trimmed.split('\n');
-            const lang = lines[0].replace('```', '').trim();
-            const codeContent = lines.slice(1, lines[-1] === '```' ? -1 : lines.length).filter(l => l !== '```').join('\n');
-
-            return (
-              <div key={index} className="my-4 rounded-xl border border-slate-800 bg-slate-950 p-4 font-mono text-xs sm:text-sm text-emerald-400 overflow-x-auto shadow-inner">
-                {lang && <div className="text-[10px] uppercase font-bold text-slate-500 mb-2 border-b border-slate-800 pb-1">{lang}</div>}
-                <pre className="whitespace-pre">
-                  <code>{codeContent}</code>
-                </pre>
-              </div>
-            );
-          }
-
-          // Markdown Table (| ... |)
-          if (trimmed.startsWith('|')) {
-            const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|') && !r.includes(':---'));
-            if (rows.length > 0) {
-              const headers = rows[0].split('|').filter(c => c.trim() !== '').map(c => c.trim());
-              const bodyRows = rows.slice(1).map(r => r.split('|').filter(c => c.trim() !== '').map(c => c.trim()));
-
-              return (
-                <div key={index} className="my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead className="bg-slate-100 dark:bg-slate-800/80 text-slate-900 dark:text-white font-bold border-b border-slate-200 dark:border-slate-800">
-                      <tr>
-                        {headers.map((h, i) => (
-                          <th key={i} className="px-4 py-3"><FormattedText text={h} /></th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
-                      {bodyRows.map((row, rowIndex) => (
-                        <tr key={rowIndex} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
-                          {row.map((cell, cellIndex) => (
-                            <td key={cellIndex} className="px-4 py-3 text-slate-700 dark:text-slate-300">
-                              <FormattedText text={cell} />
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              );
-            }
-          }
-
-          // Bullet or Numbered Lists
-          if (trimmed.startsWith('* ') || trimmed.startsWith('1. ') || trimmed.includes('\n* ') || trimmed.includes('\n1. ')) {
-            const listItems = trimmed.split('\n');
-            return (
-              <ul key={index} className="list-disc list-inside space-y-2 text-sm sm:text-base my-4 pl-2 text-slate-700 dark:text-slate-300">
-                {listItems.map((item, i) => (
-                  <li key={i} className="leading-relaxed">
-                    <FormattedText text={item.replace(/^(\*|\d+\.)\s*/, '')} />
-                  </li>
-                ))}
-              </ul>
-            );
-          }
-
-          // Standard Paragraph
-          return (
-            <p key={index} className="leading-relaxed text-sm sm:text-base text-slate-700 dark:text-slate-300">
-              <FormattedText text={trimmed} />
-            </p>
-          );
-        })}
+      <article className="prose prose-slate dark:prose-invert max-w-none">
+        <MarkdownContent content={post.content} />
       </article>
 
       {/* Footer / Back link */}
