@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Sun, Moon, Laptop, Menu, X, Wrench, Star, Sparkles, LayoutGrid } from 'lucide-react';
+import { Search, Sun, Moon, Laptop, Menu, X, Wrench, LayoutGrid, BookOpen } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { Button } from '../common/Button';
 
@@ -96,18 +96,20 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
             <LayoutGrid className="h-4 w-4" /> All Tools
           </Link>
 
+          <Link
+            to="/blog"
+            className={`flex items-center gap-1.5 transition-colors hover:text-brand-600 dark:hover:text-brand-400 ${
+              location.pathname.startsWith('/blog') ? 'text-brand-600 dark:text-brand-400 font-bold' : ''
+            }`}
+          >
+            <BookOpen className="h-4 w-4" /> Guides
+          </Link>
+
           <button
             onClick={() => handleAnchorClick('categories')}
             className="transition-colors hover:text-brand-600 dark:hover:text-brand-400 cursor-pointer"
           >
             Categories
-          </button>
-
-          <button
-            onClick={() => handleAnchorClick('popular')}
-            className="transition-colors hover:text-brand-600 dark:hover:text-brand-400 cursor-pointer"
-          >
-            Popular
           </button>
 
           <Link
@@ -199,11 +201,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
             <Link to="/tools" className="py-1.5 hover:text-brand-600 dark:hover:text-brand-400">
               All Tools (32)
             </Link>
+            <Link to="/blog" className="py-1.5 hover:text-brand-600 dark:hover:text-brand-400">
+              Developer Guides
+            </Link>
             <button onClick={() => handleAnchorClick('categories')} className="py-1.5 text-left hover:text-brand-600 dark:hover:text-brand-400">
               Browse Categories
-            </button>
-            <button onClick={() => handleAnchorClick('popular')} className="py-1.5 text-left hover:text-brand-600 dark:hover:text-brand-400">
-              Popular Tools
             </button>
             <Link to="/about" className="py-1.5 hover:text-brand-600 dark:hover:text-brand-400">
               About & Privacy

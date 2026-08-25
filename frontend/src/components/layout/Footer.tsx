@@ -65,35 +65,35 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Quick Categories */}
+          {/* Developer Articles */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Tool Categories
+              Guides & Articles
             </h3>
             <ul className="mt-4 space-y-2 text-xs">
               <li>
-                <Link to="/tools?category=json" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
-                  JSON & Data Tools
+                <Link to="/blog/json-formatting-validation-guide" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
+                  JSON Formatting & Validation Guide
                 </Link>
               </li>
               <li>
-                <Link to="/tools?category=security" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
-                  Security & Auth Tools
+                <Link to="/blog/jwt-authentication-security-guide" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
+                  JWT Security Best Practices
                 </Link>
               </li>
               <li>
-                <Link to="/tools?category=sql" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
-                  SQL & Database Tools
+                <Link to="/blog/regex-mastery-cheatsheet" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
+                  Regex Developer Cheatsheet
                 </Link>
               </li>
               <li>
-                <Link to="/tools?category=networking" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
-                  Networking & IP Tools
+                <Link to="/blog/sql-formatting-best-practices" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
+                  SQL Formatting Guidelines
                 </Link>
               </li>
               <li>
-                <Link to="/tools?category=web" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
-                  Web & Code Formatters
+                <Link to="/blog/cron-expressions-explained-guide" className="text-slate-600 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400">
+                  Cron Expressions Masterclass
                 </Link>
               </li>
             </ul>

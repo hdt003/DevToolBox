@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://devtoolbox.co/sitemap.xml
+# Google AdSense Crawler Specific Access
+User-agent: Mediapartners-Google
+Allow: /
+
+Sitemap: https://devtoolbox.app/sitemap.xml

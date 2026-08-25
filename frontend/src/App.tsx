@@ -5,6 +5,8 @@ import { ScrollToTop } from './components/common/ScrollToTop';
 import { Home } from './pages/Home';
 import { ToolsPage } from './pages/Tools';
 import { ToolPage } from './pages/ToolPage';
+import { BlogListPage } from './pages/BlogList';
+import { BlogPostPage } from './pages/BlogPost';
 import { AboutPage } from './pages/About';
 import { PrivacyPage } from './pages/Privacy';
 import { TermsPage } from './pages/Terms';
@@ -20,6 +22,8 @@ export const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/tools/:slug" element={<ToolPage />} />
+          <Route path="/blog" element={<BlogListPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
