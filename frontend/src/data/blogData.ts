@@ -22,8 +22,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedDate: 'August 24, 2026',
     author: 'DevToolBox Team',
     tags: ['JSON', 'Web APIs', 'Data Formats', 'Debugging'],
-    content: `
-### What is JSON and Why is Formatting Critical?
+    content: `### What is JSON and Why is Formatting Critical?
 
 JSON (JavaScript Object Notation) is the ubiquitous data-interchange format of modern software engineering. Used across REST APIs, GraphQL endpoints, microservices, and configuration files (\`package.json\`, \`tsconfig.json\`), JSON combines human readability with machine-parseable simplicity.
 
@@ -35,17 +34,10 @@ However, raw JSON strings returned from server APIs or log aggregators are frequ
 
 When working with JSON payloads, developers frequently encounter parsing errors (\`SyntaxError: Unexpected token\`). Here are the most common pitfalls:
 
-1. **Trailing Commas**: Unlike JavaScript objects, standard JSON specification (RFC 8259) strictly forbids trailing commas after the final element in an array or object.
-   * *Incorrect*: \`{"name": "DevToolBox", "active": true,}\`
-   * *Correct*: \`{"name": "DevToolBox", "active": true}\`
-
-2. **Single Quotes vs Double Quotes**: JSON keys and string values **must** be enclosed in double quotation marks (\`"\`). Single quotes (\`'\`) cause immediate parse failure.
-   * *Incorrect*: \`{'status': 'ok'}\`
-   * *Correct*: \`{"status": "ok"}\`
-
-3. **Unquoted Object Keys**: In JavaScript, key names can omit quotes if they are valid identifiers. In JSON, every key must be wrapped in double quotes.
-
-4. **Invalid Number Formats**: Leading zeros in numbers (e.g. \`0123\`) or raw hexadecimals are invalid in standard JSON.
+* **Trailing Commas**: Unlike JavaScript objects, standard JSON specification (RFC 8259) strictly forbids trailing commas after the final element in an array or object. Incorrect: \`{"name": "DevToolBox", "active": true,}\`. Correct: \`{"name": "DevToolBox", "active": true}\`.
+* **Single Quotes vs Double Quotes**: JSON keys and string values **must** be enclosed in double quotation marks (\`"\`). Single quotes (\`'\`) cause immediate parse failure. Incorrect: \`{'status': 'ok'}\`. Correct: \`{"status": "ok"}\`.
+* **Unquoted Object Keys**: In JavaScript, key names can omit quotes if they are valid identifiers. In JSON, every key must be wrapped in double quotes.
+* **Invalid Number Formats**: Leading zeros in numbers (e.g. \`0123\`) or raw hexadecimals are invalid in standard JSON.
 
 ---
 
@@ -60,8 +52,7 @@ When working with JSON payloads, developers frequently encounter parsing errors 
 
 When working with production logs or customer API payloads containing personal identifiable information (PII) or access tokens, uploading JSON payloads to external remote formatter websites poses significant security risks.
 
-Always utilize **browser-first client-side formatters** like [DevToolBox JSON Formatter](/tools/json-formatter) that parse and validate data completely within your browser using local JavaScript engines (\`JSON.parse\` and \`JSON.stringify\`), ensuring zero network transmissions or data logging.
-`
+Always utilize **browser-first client-side formatters** like [DevToolBox JSON Formatter](/tools/json-formatter) that parse and validate data completely within your browser using local JavaScript engines (\`JSON.parse\` and \`JSON.stringify\`), ensuring zero network transmissions or data logging.`
   },
   {
     id: 'jwt-authentication-security-guide',
@@ -73,8 +64,7 @@ Always utilize **browser-first client-side formatters** like [DevToolBox JSON Fo
     publishedDate: 'August 22, 2026',
     author: 'DevToolBox Team',
     tags: ['JWT', 'Security', 'Authentication', 'OAuth2'],
-    content: `
-### What is a JSON Web Token (JWT)?
+    content: `### What is a JSON Web Token (JWT)?
 
 JSON Web Token (JWT) is an open standard (RFC 7519) for securely transmitting information between client applications and web servers as a compact, self-contained JSON object. JWTs are widely adopted for user authentication, SSO (Single Sign-On), and stateless authorization in microservice architectures.
 
@@ -89,7 +79,9 @@ header.payload.signature
 \`\`\`
 
 #### 1. Header
+
 The header contains metadata regarding the token type and the cryptographic signing algorithm used:
+
 \`\`\`json
 {
   "alg": "HS256",
@@ -98,22 +90,24 @@ The header contains metadata regarding the token type and the cryptographic sign
 \`\`\`
 
 #### 2. Payload
+
 The payload contains claim statements about the authenticated entity (user) and additional metadata:
+
 * **Registered Claims**: Pre-defined standard claims such as \`iss\` (issuer), \`sub\` (subject), \`exp\` (expiration time in Unix seconds), and \`iat\` (issued at time).
 * **Public/Private Claims**: Custom application claims such as \`user_id\`, \`role\`, or \`email\`.
 
 #### 3. Signature
+
 The signature verifies that the message was not altered in transit and, in the case of tokens signed with a private key, confirms the sender's identity.
 
 ---
 
 ### Security Best Practices for JWT Implementation
 
-1. **Always Set Expiration (\`exp\`)**: Never issue tokens without a reasonable expiration time. Access tokens should generally expire within 15 to 60 minutes, paired with secure refresh tokens.
-2. **Never Store Sensitive Secrets in Payload**: Remember that base64url encoding is **not encryption**. Anyone with access to the JWT string can decode and read the payload using a [JWT Decoder](/tools/jwt-decoder).
-3. **Use Strong Signature Algorithms**: Prefer asymmetric signing (\`RS256\` or \`ES256\`) over symmetric signing (\`HS256\`) for distributed microservices so authentication services can hold the private key while resource servers verify signatures using public keys.
-4. **Validate Signature and Claims Server-Side**: Always verify signature integrity, issuer (\`iss\`), and expiration (\`exp\`) before accepting requests.
-`
+* **Always Set Expiration (\`exp\`)**: Never issue tokens without a reasonable expiration time. Access tokens should generally expire within 15 to 60 minutes, paired with secure refresh tokens.
+* **Never Store Sensitive Secrets in Payload**: Remember that base64url encoding is **not encryption**. Anyone with access to the JWT string can decode and read the payload using a [JWT Decoder](/tools/jwt-decoder).
+* **Use Strong Signature Algorithms**: Prefer asymmetric signing (\`RS256\` or \`ES256\`) over symmetric signing (\`HS256\`) for distributed microservices so authentication services can hold the private key while resource servers verify signatures using public keys.
+* **Validate Signature and Claims Server-Side**: Always verify signature integrity, issuer (\`iss\`), and expiration (\`exp\`) before accepting requests.`
   },
   {
     id: 'regex-mastery-cheatsheet',
@@ -125,8 +119,7 @@ The signature verifies that the message was not altered in transit and, in the c
     publishedDate: 'August 20, 2026',
     author: 'DevToolBox Team',
     tags: ['Regex', 'Pattern Matching', 'JavaScript', 'Python'],
-    content: `
-### Why Regular Expressions Matter
+    content: `### Why Regular Expressions Matter
 
 Regular Expressions (Regex) provide a concise, declarative syntax for searching, matching, parsing, and replacing text patterns within strings. Whether validating email addresses, extracting URL parameters, or sanitizing form inputs, mastering regex is a high-leverage developer skill.
 
@@ -165,8 +158,7 @@ Regular Expressions (Regex) provide a concise, declarative syntax for searching,
 
 ### Testing Regex Safely In Browser
 
-Testing regular expressions on live production strings can lead to unexpected catastrophic backtracking if regex patterns are improperly constructed. Use client-side tools like [DevToolBox Regex Tester](/tools/regex-tester) to test patterns interactively with instant match highlighting.
-`
+Testing regular expressions on live production strings can lead to unexpected catastrophic backtracking if regex patterns are improperly constructed. Use client-side tools like [DevToolBox Regex Tester](/tools/regex-tester) to test patterns interactively with instant match highlighting.`
   },
   {
     id: 'sql-formatting-best-practices',
@@ -178,8 +170,7 @@ Testing regular expressions on live production strings can lead to unexpected ca
     publishedDate: 'August 18, 2026',
     author: 'DevToolBox Team',
     tags: ['SQL', 'Database', 'PostgreSQL', 'MySQL'],
-    content: `
-### The Cost of Poorly Formatted SQL
+    content: `### The Cost of Poorly Formatted SQL
 
 Database queries in modern applications often grow into complex multi-table joins, subqueries, and window functions. Unformatted single-line SQL queries obscure logical structure, make peer code reviews difficult, and increase the likelihood of missing \`WHERE\` clause conditions or join constraints.
 
@@ -187,10 +178,10 @@ Database queries in modern applications often grow into complex multi-table join
 
 ### Core Formatting Guidelines
 
-1. **Capitalize Reserved Keywords**: Always write SQL keywords (\`SELECT\`, \`FROM\`, \`WHERE\`, \`JOIN\`, \`GROUP BY\`, \`ORDER BY\`) in UPPERCASE. Write table and column names in lowercase or snake_case.
-2. **One Clause Per Line**: Start major clauses (\`SELECT\`, \`FROM\`, \`INNER JOIN\`, \`WHERE\`, \`HAVING\`) on a new line aligned to the left.
-3. **Indent Column Lists and Subqueries**: Indent columns under \`SELECT\` and subquery logic by 2 or 4 spaces.
-4. **Use Explicit Join Syntaxes**: Avoid implicit legacy comma joins (\`FROM tableA, tableB\`). Always use explicit \`INNER JOIN\`, \`LEFT JOIN\`, or \`RIGHT JOIN\` with clear \`ON\` criteria.
+* **Capitalize Reserved Keywords**: Always write SQL keywords (\`SELECT\`, \`FROM\`, \`WHERE\`, \`JOIN\`, \`GROUP BY\`, \`ORDER BY\`) in UPPERCASE. Write table and column names in lowercase or snake_case.
+* **One Clause Per Line**: Start major clauses (\`SELECT\`, \`FROM\`, \`INNER JOIN\`, \`WHERE\`, \`HAVING\`) on a new line aligned to the left.
+* **Indent Column Lists and Subqueries**: Indent columns under \`SELECT\` and subquery logic by 2 or 4 spaces.
+* **Use Explicit Join Syntaxes**: Avoid implicit legacy comma joins (\`FROM tableA, tableB\`). Always use explicit \`INNER JOIN\`, \`LEFT JOIN\`, or \`RIGHT JOIN\` with clear \`ON\` criteria.
 
 ---
 
@@ -198,8 +189,7 @@ Database queries in modern applications often grow into complex multi-table join
 
 While pretty-printed SQL is essential for human development and code reviews, minifying SQL query strings before sending them across network drivers or embedding them in application binaries reduces payload size.
 
-Use our [SQL Formatter](/tools/sql-formatter) and [SQL Minifier](/tools/sql-minifier) to effortlessly format or compress your database statements in one click.
-`
+Use our [SQL Formatter](/tools/sql-formatter) and [SQL Minifier](/tools/sql-minifier) to effortlessly format or compress your database statements in one click.`
   },
   {
     id: 'cron-expressions-explained-guide',
@@ -211,8 +201,7 @@ Use our [SQL Formatter](/tools/sql-formatter) and [SQL Minifier](/tools/sql-mini
     publishedDate: 'August 15, 2026',
     author: 'DevToolBox Team',
     tags: ['Cron', 'Linux', 'DevOps', 'Automation'],
-    content: `
-### What is Cron?
+    content: `### What is Cron?
 
 Cron is a time-based job scheduler utility found in Unix-like operating systems (Linux, macOS). Developers, DevOps engineers, and system administrators use cron jobs to execute automated commands, scripts, data backups, and routine maintenance tasks at fixed times, dates, or intervals.
 
@@ -251,8 +240,7 @@ A standard cron expression consists of 5 fields separated by spaces:
 * **Every Monday at 9:00 AM**: \`0 9 * * 1\`
 * **First day of every month at midnight**: \`0 0 1 * *\`
 
-Use our interactive [Cron Generator](/tools/cron-generator) and [Cron Parser](/tools/cron-parser) to construct and inspect human-readable schedules effortlessly!
-`
+Use our interactive [Cron Generator](/tools/cron-generator) and [Cron Parser](/tools/cron-parser) to construct and inspect human-readable schedules effortlessly!`
   }
 ];
 
